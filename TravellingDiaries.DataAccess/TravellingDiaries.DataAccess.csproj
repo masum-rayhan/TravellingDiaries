@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.21" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.21" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.21" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.21" />
@@ -19,8 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repo\Auth\" />
-    <Folder Include="Repo\IRepo\Auth\" />
+    <ProjectReference Include="..\TravellingDiaries.Models\TravellingDiaries.Models.csproj" />
   </ItemGroup>
 
 </Project>
