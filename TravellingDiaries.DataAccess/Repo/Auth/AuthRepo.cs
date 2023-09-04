@@ -41,14 +41,7 @@ public class AuthRepo : IAuthRepo
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
 
-        //if (result.Succeeded)
-        //{
         return user;
-        //}
-        //else
-        //{
-        //    throw new ApplicationException("User registration failed. Please check your information.");
-        //}
     }
 
     public async Task<bool> UserExistsAsync(string email)
@@ -74,7 +67,6 @@ public class AuthRepo : IAuthRepo
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.Email),
-            // Add other claims as needed
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtSettings:Key"]));
