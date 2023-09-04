@@ -16,5 +16,5 @@ public class AppDbContext : DbContext
 
     }
     public DbSet<ApplicationUser> Users { get; set; }
-    //public DbSet<ApplicationRole> Roles { get; set; }
+    public DbSet<ApplicationRole> Roles { get; set; }
 }
