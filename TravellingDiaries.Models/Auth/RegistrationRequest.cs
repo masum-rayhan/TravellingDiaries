@@ -24,6 +24,10 @@ public class RegistrationRequest
     public string Password { get; set; }
 
     [Required]
+    [Compare("Password", ErrorMessage = "Passwords do not match.")]
+    public string ConfirmPassword { get; set; }
+
+    [Required]
     [DataType(DataType.Date)]
     public DateTime DateOfBirth { get; set; }
 

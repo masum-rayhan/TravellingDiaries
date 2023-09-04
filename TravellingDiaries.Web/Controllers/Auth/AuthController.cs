@@ -29,6 +29,9 @@ public class AuthController : ControllerBase
         {
             try
             {
+                if(model.Password != model.ConfirmPassword)
+                    return BadRequest("Passwords do not match.");
+
                 var user = new ApplicationUser
                 {
                     FirstName = model.FirstName,

@@ -30,9 +30,7 @@ public class AuthRepo : IAuthRepo
     {
         // Check if a user with the same email exists
         if (await UserExistsAsync(user.Email))
-        {
             throw new ApplicationException("Email address is already registered.");
-        }
 
         var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
         user.PasswordHash = hashedPassword;
@@ -71,7 +69,6 @@ public class AuthRepo : IAuthRepo
         // Update the user's password with the new password
         var hashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
         user.PasswordHash = hashedPassword;
-        //user.PasswordHash = hashedPassword(newPassword);
 
         // Save changes to the database
         var result = await _db.SaveChangesAsync();
