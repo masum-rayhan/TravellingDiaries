@@ -10,7 +10,8 @@ namespace TravellingDiaries.DataAccess.Repo.IRepo.Auth;
 
 public interface IAuthRepo
 {
-    Task<ApplicationUser> CreateUserAsync(ApplicationUser user, string password);
-    Task<ApplicationUser> FindUserByEmailAsync(string email);
-    Task<bool> CheckPasswordAsync(ApplicationUser user, string password);
+    Task<ApplicationUser> RegisterUserAsync(ApplicationUser user, string password);
+    Task<ApplicationUser> LoginAsync(string email, string password);
+    Task<bool> UserExistsAsync(string email);
+    string GenerateJwtToken(ApplicationUser user);
 }

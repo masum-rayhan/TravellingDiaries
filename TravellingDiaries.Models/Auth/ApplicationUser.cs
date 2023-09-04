@@ -17,4 +17,5 @@ public class ApplicationUser
     public string Email { get; set; }
     public DateTime DateOfBirth { get; set; }
     public string Gender { get; set; }
+    public string PasswordHash { get; set; }
 }
