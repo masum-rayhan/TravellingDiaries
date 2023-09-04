@@ -5,9 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using TravellingDiaries.DataAccess.Data;
-using TravellingDiaries.DataAccess.Repo.Auth;
-using TravellingDiaries.DataAccess.Repo.IRepo.Auth;
-using TravellingDiaries.Models.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,10 +15,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-builder.Services.AddScoped<IAuthRepo, AuthRepo>();
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+//builder.Services.AddScoped<IAuthRepo, AuthRepo>();
+//builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+//    .AddEntityFrameworkStores<AppDbContext>()
+//    .AddDefaultTokenProviders();
 //builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(option =>
 {

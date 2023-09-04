@@ -9,10 +9,12 @@ using TravellingDiaries.Models.Auth;
 
 namespace TravellingDiaries.DataAccess.Data;
 
-public class AppDbContext : IdentityDbContext<ApplicationUser>
+public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions <AppDbContext> options) : base(options)
     {
 
     }
+    public DbSet<ApplicationUser> Users { get; set; }
+    //public DbSet<ApplicationRole> Roles { get; set; }
 }

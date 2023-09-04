@@ -10,7 +10,10 @@ namespace TravellingDiaries.Models.Auth;
 public class RegistrationRequest
 {
     [Required]
-    public string Username { get; set; }
+    public string FirstName { get; set; }
+
+    [Required]
+    public string Surname { get; set; }
 
     [Required]
     [EmailAddress]
@@ -19,4 +22,11 @@ public class RegistrationRequest
     [Required]
     [MinLength(6)]
     public string Password { get; set; }
+
+    [Required]
+    [DataType(DataType.Date)]
+    public DateTime DateOfBirth { get; set; }
+
+    [Required]
+    public string Gender { get; set; }
 }

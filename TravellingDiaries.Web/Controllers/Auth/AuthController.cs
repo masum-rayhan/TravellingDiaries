@@ -11,7 +11,7 @@ using TravellingDiaries.Models.Auth;
 namespace TravellingDiaries.Web.Controllers.Auth;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("auth")]
 public class AuthController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
@@ -33,7 +33,16 @@ public class AuthController : ControllerBase
     {
         if (ModelState.IsValid)
         {
-            var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
+            var user = new ApplicationUser
+            {
+                //UserName = model.Email,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                Surname = model.Surname,
+                DateOfBirth = model.DateOfBirth,
+                Gender = model.Gender
+            };
+
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
@@ -70,6 +79,7 @@ public class AuthController : ControllerBase
 
             // Authentication failed
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+
             return Unauthorized(ModelState);
         }
 
@@ -82,12 +92,12 @@ public class AuthController : ControllerBase
         var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("JwtSettings:Key"));
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString()),
-                new Claim(ClaimTypes.Actor, user.UserName),
-                //new Claim(ClaimTypes.Name, user.cUserFullname)
-            }),
+            //Subject = new ClaimsIdentity(new[]
+            //{
+            //    //new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString()),
+            //    //new Claim(ClaimTypes.Actor, user.UserName),
+            //    //new Claim(ClaimTypes.Name, user.cUserFullname)
+            //}),
             Expires = DateTime.UtcNow.AddDays(30),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
@@ -95,23 +105,4 @@ public class AuthController : ControllerBase
 
         return tokenHandler.WriteToken(token);
     }
-
-
-    //[HttpPost("external-login")]
-    //[AllowAnonymous]
-    //public IActionResult ExternalLogin([FromBody] ExternalLoginRequest model)
-    //{
-    //    // Implement Google Sign-In or other external login logic here
-    //    // You will need to handle external authentication providers and generate JWT tokens
-    //    // This is a placeholder for the Google Sign-In part
-    //    // For Google Sign-In, you can use external authentication middleware
-
-    //    // Example:
-    //    // var user = AuthenticateWithGoogle(model.ExternalToken);
-    //    // var token = GenerateJwtToken(user);
-
-    //    // Replace the above example with your actual external login logic
-
-    //    return Ok(new { Token = "YourGeneratedToken" });
-    //}
 }
