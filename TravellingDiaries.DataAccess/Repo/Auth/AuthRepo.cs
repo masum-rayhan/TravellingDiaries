@@ -61,6 +61,24 @@ public class AuthRepo : IAuthRepo
         return null; // Return null for unsuccessful login
     }
 
+    public async Task<bool> ResetPasswordAsync(string email, string newPassword)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+        if(user == null && newPassword == null)
+            return false;
+
+        // Update the user's password with the new password
+        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+        user.PasswordHash = hashedPassword;
+        //user.PasswordHash = hashedPassword(newPassword);
+
+        // Save changes to the database
+        var result = await _context.SaveChangesAsync();
+
+        return result > 0; // Password reset successful if changes were saved
+    }
+
     public string GenerateJwtToken(ApplicationUser user)
     {
         var claims = new List<Claim>

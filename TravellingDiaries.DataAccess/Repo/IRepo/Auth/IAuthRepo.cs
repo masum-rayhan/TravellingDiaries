@@ -13,5 +13,6 @@ public interface IAuthRepo
     Task<ApplicationUser> RegisterUserAsync(ApplicationUser user, string password);
     Task<ApplicationUser> LoginAsync(string email, string password);
     Task<bool> UserExistsAsync(string email);
+    Task<bool> ResetPasswordAsync(string email, string newPassword);
     string GenerateJwtToken(ApplicationUser user);
 }

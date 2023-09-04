@@ -77,4 +77,20 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
     }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest model)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await _authRepo.ResetPasswordAsync(model.Email, model.NewPassword);
+
+            if (result)
+                return Ok("Password reset successful.");
+
+            return BadRequest("Password reset failed.");
+        }
+
+        return BadRequest(ModelState);
+    }
 }
