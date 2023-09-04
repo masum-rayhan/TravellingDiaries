@@ -18,12 +18,12 @@ namespace TravellingDiaries.DataAccess.Repo.Auth;
 public class AuthRepo : IAuthRepo
 {
     private readonly IConfiguration _config;
-    private readonly AppDbContext _context;
+    private readonly AppDbContext _db;
 
-    public AuthRepo(IConfiguration config, AppDbContext context)
+    public AuthRepo(IConfiguration config, AppDbContext db)
     {
         _config = config;
-        _context = context;
+        _db = db;
     }
 
     public async Task<ApplicationUser> RegisterUserAsync(ApplicationUser user, string password)
@@ -38,20 +38,20 @@ public class AuthRepo : IAuthRepo
         user.PasswordHash = hashedPassword;
 
         // Add the user to the database
-        await _context.Users.AddAsync(user);
-        await _context.SaveChangesAsync();
+        await _db.Users.AddAsync(user);
+        await _db.SaveChangesAsync();
 
         return user;
     }
 
     public async Task<bool> UserExistsAsync(string email)
     {
-        return await _context.Users.AnyAsync(u => u.Email == email);
+        return await _db.Users.AnyAsync(u => u.Email == email);
     }
 
     public async Task<ApplicationUser> LoginAsync(string email, string password)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
 
         if (user != null && BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
         {
@@ -63,7 +63,7 @@ public class AuthRepo : IAuthRepo
 
     public async Task<bool> ResetPasswordAsync(string email, string newPassword)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
 
         if(user == null && newPassword == null)
             return false;
@@ -74,7 +74,7 @@ public class AuthRepo : IAuthRepo
         //user.PasswordHash = hashedPassword(newPassword);
 
         // Save changes to the database
-        var result = await _context.SaveChangesAsync();
+        var result = await _db.SaveChangesAsync();
 
         return result > 0; // Password reset successful if changes were saved
     }
